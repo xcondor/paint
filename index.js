@@ -1,5 +1,7 @@
+var canvas = document.getElementById('canvas')
+
 function drawcanvas (){
-  var ctx = document.getElementById('canvas').getContext('2d');
+  var ctx = canvas.getContext('2d');
   ctx.lineWidth = 1; //设置线宽
   /*
     1. 设置网格的大小，gridSize用于确定网格之中的线之间的间隔
@@ -35,3 +37,46 @@ function drawcanvas (){
 }
 
 drawcanvas();
+var canvas = document.getElementById("canvas");   
+  var ctx = canvas.getContext("2d");  
+  //按下标记   
+  var onoff = false;  
+  //变量oldx跟oldy代表鼠标移动前的坐标  
+  var oldx = -10;   
+  var oldy = -10;   
+  //设置颜色  
+  var linecolor = "white";   
+  //设置线宽   
+  var linw = 50;   
+  //添加鼠标移动事件   
+  canvas.addEventListener("mousemove",draw,true);  //第三个参数主要跟捕获或者冒泡有关   
+  //添加鼠标按下事件   
+  canvas.addEventListener("mousedown",down,false);   
+  //添加鼠标弹起事件   
+  canvas.addEventListener("mouseup",up,false);   
+  function down(event){     
+   onoff = true;     
+   oldx = event.pageX-10;      
+   oldy = event.pageY-10;  
+   //console.log(event.pageX+'..............000.............'+event.pageY);
+  //event.pageX跟event.pageY相对于整个页面鼠标的位置 包括溢出的部分（就是滚动条）   
+  }   
+  function up(){     
+   onoff = false;   
+ }  
+ function draw(event){    
+  if(onoff == true){        
+   var newx = event.pageX-50;        
+   var newy = event.pageY-50;        
+   ctx.beginPath();//beginPath() 丢弃任何当前定义的路径并且开始一条新的路径。它把当前的点设置为 (0,0)。       
+   ctx.moveTo(oldx,oldy);   //移动到点击时候的坐标，以那个坐标为原点      
+   ctx.lineTo(newx,newy);   //绘制新的路径       
+   ctx.strokeStyle=linecolor;       
+   ctx.lineWidth=linw;       
+   ctx.lineCap="squre";       
+   ctx.stroke();//stroke() 方法会实际地绘制出通过 moveTo() 和 lineTo() 方法定义的路径。默认颜色是黑色。    
+//将新的鼠标位置赋给下一次开始绘制的起始坐标      
+   oldx = newx;      
+   oldy = newy;   
+  };
+ };
